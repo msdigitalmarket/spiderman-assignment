@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Webworks - Spider-Man Portal</title>
+  <style>
+    /* Global Styles & Red + White + Blue Theme */
+    :root {
+      --primary-red: #E62429;
+      --dark-blue: #0A192F;
+      --accent-blue: #0056B3;
+      --light-bg: #F4F7FA;
+      --white: #FFFFFF;
+      --text-dark: #1E293B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header & Navigation */
+    header {
+      background-color: var(--dark-blue);
+      border-bottom: 4px solid var(--primary-red);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .logo-badge {
+      background: var(--primary-red);
+      color: var(--white);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 18px;
+    }
+
+    nav button {
+      background: transparent;
+      border: 2px solid var(--primary-red);
+      color: var(--white);
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+      margin-left: 10px;
+    }
+
+    nav button:hover, nav button.active {
+      background: var(--primary-red);
+      color: var(--white);
+    }
+
+    /* Main Container */
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+      padding: 35px;
+      border-top: 5px solid var(--primary-red);
+    }
+
+    .card h2 {
+      color: var(--dark-blue);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .card p.subtitle {
+      text-align: center;
+      color: #64748B;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.15);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-red);
+      color: var(--white);
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+      background: #c0191e;
+    }
+
+    /* Hero Section (User Welcome Page) */
+    .hero-card {
+      max-width: 800px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .spiderman-img {
+      width: 100%;
+      max-width: 380px;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(230, 36, 41, 0.3);
+      border: 4px solid var(--dark-blue);
+      margin: 20px 0;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      color: var(--primary-red);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    /* Admin Dashboard Table */
+    .admin-card {
+      max-width: 900px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    th {
+      background-color: var(--dark-blue);
+      color: var(--white);
+    }
+
+    tr:nth-child(even) {
+      background-color: #F8FAFC;
+    }
+
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <span class="logo-badge">APEX</span> WEBWORKS
+    </div>
+    <nav>
+      <button id="nav-signup" class="active" onclick="showView('user-signup')">User Signup</button>
+      <button id="nav-admin" onclick="showView('admin-login')">Admin Portal</button>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <!-- 1. USER SIGNUP PAGE -->
+    <div id="user-signup" class="card view-section active">
+      <h2>Create User Account</h2>
+      <p class="subtitle">Enter your details to register</p>
+      <form onsubmit="handleUserSignup(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="user-name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="user-email" placeholder="user@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="user-pass" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-submit">Sign Up</button>
+      </form>
+    </div>
+
+    <!-- 2. USER HERO PAGE (After Sign Up) -->
+    <div id="user-hero" class="card hero-card view-section">
+      <h1 class="hero-title">Thank You for Connecting!</h1>
+      <p style="font-size: 18px; color: var(--dark-blue); font-weight: 600;">Welcome, <span id="welcome-username" style="color: var(--primary-red);">User</span>!</p>
+      
+      <!-- Spider-Man Image -->
+      <img src="spiderman.jpg" onerror="this.src='https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?q=80&w=800&auto=format&fit=crop';" alt="Spider-Man" class="spiderman-img">
+      
+      <p style="color: #475569; margin-top: 10px;">Your account has been successfully created and logged in.</p>
+      <button onclick="logoutUser()" class="btn-submit" style="margin-top: 20px; width: 200px; background: var(--dark-blue);">Logout</button>
+    </div>
+
+    <!-- 3. ADMIN LOGIN PAGE -->
+    <div id="admin-login" class="card view-section">
+      <h2>Admin Sign In</h2>
+      <p class="subtitle">Access registered users list</p>
+      <form onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label>Admin Email</label>
+          <input type="email" id="admin-email" placeholder="admin@apex.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="admin-pass" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-submit" style="background: var(--dark-blue);">Sign In as Admin</button>
+      </form>
+    </div>
+
+    <!-- 4. ADMIN DASHBOARD PAGE -->
+    <div id="admin-dashboard" class="card admin-card view-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Registered Users Data</h2>
+        <button onclick="logoutAdmin()" style="background: var(--primary-red); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer;">Logout Admin</button>
+      </div>
+      
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Full Name</th>
+              <th>Email Address</th>
+              <th>Signup Date & Time</th>
+            </tr>
+          </thead>
+          <tbody id="user-table-body">
+            <!-- Data will be dynamically loaded here from LocalStorage -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Navigation Control
+    function showView(viewId) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+
+      document.getElementById('nav-signup').classList.remove('active');
+      document.getElementById('nav-admin').classList.remove('active');
+
+      if (viewId === 'user-signup' || viewId === 'user-hero') {
+        document.getElementById('nav-signup').classList.add('active');
+      } else {
+        document.getElementById('nav-admin').classList.add('active');
+      }
+    }
+
+    // Handle User Signup
+    function handleUserSignup(e) {
+      e.preventDefault();
+      const name = document.getElementById('user-name').value;
+      const email = document.getElementById('user-email').value;
+      
+      const now = new Date();
+      const formattedDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+      const newUser = { name, email, date: formattedDate };
+
+      // Get existing users or initialize empty array
+      let users = JSON.parse(localStorage.getItem('apex_users') || '[]');
+      users.push(newUser);
+
+      // Save back to LocalStorage
+      localStorage.setItem('apex_users', JSON.stringify(users));
+
+      // Show Hero Page
+      document.getElementById('welcome-username').innerText = name;
+      showView('user-hero');
+    }
+
+    // Handle Admin Login
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('admin-email').value;
+      const pass = document.getElementById('admin-pass').value;
+
+      // Default Admin Credentials
+      if (email === 'admin@apex.com' && pass === 'admin123') {
+        loadAdminData();
+        showView('admin-dashboard');
+      } else {
+        alert('Invalid Admin Credentials! Use admin@apex.com / admin123');
+      }
+    }
+
+    // Load Registered Users into Admin Table
+    function loadAdminData() {
+      const users = JSON.parse(localStorage.getItem('apex_users') || '[]');
+      const tbody = document.getElementById('user-table-body');
+      tbody.innerHTML = '';
+
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#94A3B8;">No users registered yet.</td></tr>';
+        return;
+      }
+
+      users.forEach((u, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${u.name}</td>
+          <td>${u.email}</td>
+          <td>${u.date}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function logoutUser() {
+      document.getElementById('user-name').value = '';
+      document.getElementById('user-email').value = '';
+      document.getElementById('user-pass').value = '';
+      showView('user-signup');
+    }
+
+    function logoutAdmin() {
+      document.getElementById('admin-email').value = '';
+      document.getElementById('admin-pass').value = '';
+      showView('admin-login');
+    }
+  </script>
+</body>
+</html>
