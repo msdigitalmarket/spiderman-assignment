@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Apex Webworks - Spider-Man Portal</title>
   <style>
-    /* Global Styles & Red + White + Blue Theme */
     :root {
       --primary-red: #E62429;
       --dark-blue: #0A192F;
@@ -30,7 +29,6 @@
       flex-direction: column;
     }
 
-    /* Header & Navigation */
     header {
       background-color: var(--dark-blue);
       border-bottom: 4px solid var(--primary-red);
@@ -76,7 +74,6 @@
       color: var(--white);
     }
 
-    /* Main Container */
     .container {
       flex: 1;
       display: flex;
@@ -150,7 +147,6 @@
       background: #c0191e;
     }
 
-    /* Hero Section (User Welcome Page) */
     .hero-card {
       max-width: 800px;
       text-align: center;
@@ -174,7 +170,6 @@
       margin-bottom: 10px;
     }
 
-    /* Admin Dashboard Table */
     .admin-card {
       max-width: 900px;
     }
@@ -204,12 +199,13 @@
       background-color: #F8FAFC;
     }
 
+    /* Force Hide Inactive Sections */
     .view-section {
-      display: none;
+      display: none !important;
     }
 
     .view-section.active {
-      display: block;
+      display: block !important;
     }
   </style>
 </head>
@@ -243,7 +239,7 @@
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="user-pass" placeholder="••••••••" required>
+          <input type="password" id="user-pass" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required>
         </div>
         <button type="submit" class="btn-submit">Sign Up</button>
       </form>
@@ -272,7 +268,7 @@
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="admin-pass" placeholder="••••••••" required>
+          <input type="password" id="admin-pass" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required>
         </div>
         <button type="submit" class="btn-submit" style="background: var(--dark-blue);">Sign In as Admin</button>
       </form>
@@ -296,7 +292,6 @@
             </tr>
           </thead>
           <tbody id="user-table-body">
-            <!-- Data will be dynamically loaded here from LocalStorage -->
           </tbody>
         </table>
       </div>
@@ -305,7 +300,6 @@
   </div>
 
   <script>
-    // Navigation Control
     function showView(viewId) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
       document.getElementById(viewId).classList.add('active');
@@ -320,7 +314,6 @@
       }
     }
 
-    // Handle User Signup
     function handleUserSignup(e) {
       e.preventDefault();
       const name = document.getElementById('user-name').value;
@@ -331,25 +324,20 @@
 
       const newUser = { name, email, date: formattedDate };
 
-      // Get existing users or initialize empty array
       let users = JSON.parse(localStorage.getItem('apex_users') || '[]');
       users.push(newUser);
 
-      // Save back to LocalStorage
       localStorage.setItem('apex_users', JSON.stringify(users));
 
-      // Show Hero Page
       document.getElementById('welcome-username').innerText = name;
       showView('user-hero');
     }
 
-    // Handle Admin Login
     function handleAdminLogin(e) {
       e.preventDefault();
       const email = document.getElementById('admin-email').value;
       const pass = document.getElementById('admin-pass').value;
 
-      // Default Admin Credentials
       if (email === 'admin@apex.com' && pass === 'admin123') {
         loadAdminData();
         showView('admin-dashboard');
@@ -358,7 +346,6 @@
       }
     }
 
-    // Load Registered Users into Admin Table
     function loadAdminData() {
       const users = JSON.parse(localStorage.getItem('apex_users') || '[]');
       const tbody = document.getElementById('user-table-body');
